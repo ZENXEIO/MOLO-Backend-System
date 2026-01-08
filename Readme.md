@@ -1,16 +1,16 @@
-# MOLO BACKEND
+# SVSC BACKEND
 
-Simple backend for the MOLO project — an Express + Prisma API.
+Express + Prisma backend for the SVSC project.
 
 ## Overview
 
-This repository contains the server-side code for SVSC, including Prisma schema and migrations, Express controllers, and middleware.
+This repository contains the server-side API implementation using Express, Prisma ORM, and PostgreSQL (see `prisma/schema.prisma`). It includes controllers, middleware, migration history under `prisma/migrations`, and tests under `tests/`.
 
 ## Requirements
 
 - Node.js (16+)
 - npm or yarn
-- PostgreSQL (or another database supported by Prisma)
+- PostgreSQL (recommended) or another Prisma-supported database
 
 ## Quick Setup
 
@@ -20,11 +20,12 @@ This repository contains the server-side code for SVSC, including Prisma schema 
 npm install
 ```
 
-2. Create a `.env` file with at least the `DATABASE_URL` value.
+2. Create a `.env` file with at least the `DATABASE_URL` value (see `prisma/.env.example` if present).
 
-3. Apply Prisma migrations:
+3. Generate the Prisma client and apply migrations:
 
 ```bash
+npx prisma generate
 npx prisma migrate deploy
 ```
 
@@ -39,13 +40,46 @@ npm run dev
 - `npm run dev` — start dev server
 - `npm start` — start production server
 - `npx prisma migrate deploy` — apply DB migrations
+- `npx prisma generate` — generate Prisma client
+
+## Continuous Integration
+
+This repository uses GitHub Actions for CI. The workflow runs on push and pull requests and exercises the project across multiple OSes and Node versions (Ubuntu, macOS, Windows; Node 18/20/22). CI performs:
+- install (`npm ci`)
+- Prisma client generation (`npx prisma generate`)
+- linting (`npm run lint`)
+- format check (`npx prettier --check .`)
+- tests (`npm test`)
+- optional build (`npm run build --if-present`)
+- dependency review and CodeQL analysis
+
+You can run the same checks locally to reproduce CI failures.
+
+Local commands (copy/paste):
+
+```bash
+# install exact deps used by CI
+npm ci
+
+# generate prisma client
+npx prisma generate
+
+# run lint and format check
+npm run lint
+npx prettier --check .
+
+# run tests
+npm test
+
+# build (if project has a build step)
+npm run build --if-present
+```
 
 ## Notes
 
-- See the `prisma/` folder for schema and migration history.
-- Adjust environment variables and scripts as needed for your workflow.
+- See the `prisma/` folder for schema and migrations.
+- Keep environment variables out of source control; use `.env`.
 
 ## Contributing
 
-Feel free to open issues or PRs. Keep changes small and focused.
-
+Open issues or PRs with focused changes. Run tests and linters before submitting.

@@ -11,7 +11,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "nodemon src/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -27,12 +27,15 @@
     "jest": "^30.2.0",
     "nodemon": "^3.1.11",
     "prettier": "^3.7.4",
-    "prisma": "^7.2.0"
+    "prisma": "^7.2.0",
+    "supertest": "^7.2.2"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^4.22.1",
     "jsonwebtoken": "^9.0.3",

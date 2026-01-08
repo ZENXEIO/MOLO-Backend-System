@@ -15,7 +15,7 @@ datasource db {
 }
 
 
-model USer {
+model User {
   id String @id @default(uuid())
   email String @unique
   password String
@@ -42,7 +42,7 @@ model Event {
   totalSeats Int
   availableSeats Int
   orgenizerID String
-  organizer USer @relation(fields: [orgenizerID], references: [id], onDelete: Cascade)
+  organizer User @relation(fields: [orgenizerID], references: [id], onDelete: Cascade)
   ticketCategories TicketCategory[]
   status EventStaus @default(DRAFT)
   createdAt DateTime @default(now())
