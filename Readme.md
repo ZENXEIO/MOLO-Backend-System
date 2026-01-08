@@ -4,7 +4,7 @@ Simple backend for the MOLO project — an Express + Prisma API.
 
 ## Overview
 
-This repository contains the server-side code for SVSC, including Prisma schema and migrations, Express controllers, and middleware.
+This repository contains the server-side code for MOLO, including Prisma schema and migrations, Express controllers, and middleware.
 
 ## Requirements
 
