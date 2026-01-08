@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  engineType = "binary"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model USer {
+  id String @id @default(uuid())
+  email String @unique
+  password String
+  role Role
+  events Event[]
+  createdAt DateTime @default(now())
+}
+
+enum Role{
+  ADMIN
+  ORGANIZER
+  CUSTOMER
+  STAFF
+}
+
+model Event {
+  id String @id @default(uuid())
+  title String
+  description String?
+  venue String
+  city String
+  startTime DateTime
+  endTime DateTime
+  totalSeats Int
+  availableSeats Int
+  orgenizerID String
+  organizer USer @relation(fields: [orgenizerID], references: [id], onDelete: Cascade)
+  ticketCategories TicketCategory[]
+  status EventStaus @default(DRAFT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum EventStaus {
+  DRAFT
+  PUBLISHED
+  CANCELLED
+  COMPLETED
+}
+
+model TicketCategory{
+  id String @id @default(uuid())
+  name String
+  description String?
+
+  price Int
+  totalSeats Int
+  availableSeats Int
+
+  eventID String
+  event Event @relation(fields: [eventID], references: [id])
+}
+
+model Order{
+  id String @id @default(uuid())
+  userID String
+  eventID String
+
+  amount Int
+  currency String @default("INR")
+  status OrderStatus @default(PENDING)
+  payementRef String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model Ticket {
+  id String @id @default(uuid())
+  ticketCode String @unique
+  eventId String
+  orderId String
+  categoryId String
+  status TicketStatus @default(ACTIVE)
+  checkedInAt DateTime?
+  createdAt DateTime @default(now())
+}
+
+enum TicketStatus{
+  ACTIVE
+  USED
+  CANCELLED
+}
