@@ -1,9 +1,10 @@
-# SVSC BACKEND
+# MOLO BACKEND
 
 Express + Prisma backend for the SVSC project.
 
 ## Overview
 
+This repository contains the server-side code for MOLO, including Prisma schema and migrations, Express controllers, and middleware.
 This repository contains the server-side API implementation using Express, Prisma ORM, and PostgreSQL (see `prisma/schema.prisma`). It includes controllers, middleware, migration history under `prisma/migrations`, and tests under `tests/`.
 
 ## Requirements
