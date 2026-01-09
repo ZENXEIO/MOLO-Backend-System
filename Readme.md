@@ -46,6 +46,7 @@ npm run dev
 ## Continuous Integration
 
 This repository uses GitHub Actions for CI. The workflow runs on push and pull requests and exercises the project across multiple OSes and Node versions (Ubuntu, macOS, Windows; Node 18/20/22). CI performs:
+
 - install (`npm ci`)
 - Prisma client generation (`npx prisma generate`)
 - linting (`npm run lint`)
