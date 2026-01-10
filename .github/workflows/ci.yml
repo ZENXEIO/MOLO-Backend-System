@@ -38,5 +38,5 @@ jobs:
       - name: Format check
         run: npx prettier --check .
 
-      - name: Skip tests (ESM/Jest limitation)
-        run: echo "Tests intentionally skipped"
+      - name: Unit Testing
+        run: npm run test
