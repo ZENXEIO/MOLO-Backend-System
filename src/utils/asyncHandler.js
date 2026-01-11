@@ -1,6 +1,7 @@
 const asyncHandler = (requestHandler) => {
   return (req, res, next) => {
-    Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err));
+    // Return the Promise so callers can await and tests won't race
+    return Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err));
   };
 };
 
