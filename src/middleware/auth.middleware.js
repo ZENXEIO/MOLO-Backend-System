@@ -1,27 +1,41 @@
-import { ApiError } from '../utils/ApiError.js';
-import { asyncHandler } from '../utils/asyncHandler.js';
 import jwt from 'jsonwebtoken';
+
 import { User } from '../models/user.models.js';
+import { ApiError } from '../utils/ApiError.js';
 
-export const verifyJWT = asyncHandler(async (req, _, next) => {
+export async function verifyJWT(req, res, next) {
   try {
-    const token = req.cookies?.accessToken || req.header('Authorization')?.replace('Bearer ', '');
+    // Try cookies first, then Authorization header (Bearer <token>)
+    let token = req && req.cookies ? req.cookies.accessToken : undefined;
 
-    if (!token) {
-      throw new ApiError(401, 'Unauthorized request');
+    if (!token && typeof req.header === 'function') {
+      const authHeader = req.header('Authorization') || req.header('authorization');
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        token = authHeader.split(' ')[1];
+      } else if (authHeader) {
+        token = authHeader;
+      }
     }
 
-    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    if (!token) {
+      return next(new ApiError(401, 'No token provided'));
+    }
 
-    const user = await User.findById(decodedToken?._id).select('-password -refreshToken');
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET || 'secret');
+    } catch (err) {
+      return next(new ApiError(401, 'Invalid token'));
+    }
 
+    const user = await User.findById(decoded._id).select('-password');
     if (!user) {
-      throw new ApiError(401, 'Invalid Access Token');
+      return next(new ApiError(401, 'User not found'));
     }
 
     req.user = user;
-    next();
-  } catch (error) {
-    throw new ApiError(401, error?.message || 'Invalid access token');
+    return next();
+  } catch (err) {
+    return next(new ApiError(401, 'Unauthorized', [], err.stack || ''));
   }
-});
+}

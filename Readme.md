@@ -1,17 +1,16 @@
-# MOLO BACKEND
+# MOLO — Backend (Express + Mongoose + MongoDB)
 
-Express + Prisma backend for the SVSC project.
+Express API backend for the SVSC project's MOLO service.
 
 ## Overview
 
-This repository contains the server-side code for MOLO, including Prisma schema and migrations, Express controllers, and middleware.
-This repository contains the server-side API implementation using Express, Prisma ORM, and PostgreSQL (see `prisma/schema.prisma`). It includes controllers, middleware, migration history under `prisma/migrations`, and tests under `tests/`.
+This repository contains the server-side API implementation built with **Express** and **Mongoose** (MongoDB). It includes controllers, middleware, Mongoose models, and Jest tests.
 
 ## Requirements
 
-- Node.js (16+)
-- npm or yarn
-- PostgreSQL (recommended) or another Prisma-supported database
+- Node.js 16+
+- npm
+- MongoDB (local or Atlas)
 
 ## Quick Setup
 
@@ -21,67 +20,72 @@ This repository contains the server-side API implementation using Express, Prism
 npm install
 ```
 
-2. Create a `.env` file with at least the `DATABASE_URL` value (see `prisma/.env.example` if present).
+2. Create a `.env` file in the project root with at least the following values (example):
 
-3. Generate the Prisma client and apply migrations:
-
-```bash
-npx prisma generate
-npx prisma migrate deploy
+```dotenv
+MONGODB_URI=
+MONGODB_DB=DATABASE_MOLO
+PORT=6000
+ACCESS_TOKEN_SECRET=your_access_secret
+REFRESH_TOKEN_SECRET=your_refresh_secret
+CORS=*
 ```
 
-4. Start the server (development):
+Notes:
+
+- `MONGODB_URI` must start with `mongodb://` or `mongodb+srv://`.
+- If `MONGODB_URI` already contains a database name (e.g. `mongodb://host:27017/mydb`), the app will use that DB name. Otherwise `MONGODB_DB` is used.
+
+3. Start the development server:
 
 ```bash
 npm run dev
 ```
 
-## Useful Scripts
+## Scripts
 
-- `npm run dev` — start dev server
-- `npm start` — start production server
-- `npx prisma migrate deploy` — apply DB migrations
-- `npx prisma generate` — generate Prisma client
+- `npm run dev` — start dev server with `nodemon` (auto-reload)
+- `npm test` — run the Jest test suite
+- `npm run lint` — run ESLint
+- `npm run format` — run Prettier to format files
 
-## Continuous Integration
+## Testing
 
-This repository uses GitHub Actions for CI. The workflow runs on push and pull requests and exercises the project across multiple OSes and Node versions (Ubuntu, macOS, Windows; Node 18/20/22). CI performs:
-
-- install (`npm ci`)
-- Prisma client generation (`npx prisma generate`)
-- linting (`npm run lint`)
-- format check (`npx prettier --check .`)
-- tests (`npm test`)
-- optional build (`npm run build --if-present`)
-- dependency review and CodeQL analysis
-
-You can run the same checks locally to reproduce CI failures.
-
-Local commands (copy/paste):
+Unit tests use **Jest** (configured for ESM). Run the test suite with:
 
 ```bash
-# install exact deps used by CI
-npm ci
-
-# generate prisma client
-npx prisma generate
-
-# run lint and format check
-npm run lint
-npx prettier --check .
-
-# run tests
 npm test
-
-# build (if project has a build step)
-npm run build --if-present
 ```
 
-## Notes
+Notes:
 
-- See the `prisma/` folder for schema and migrations.
-- Keep environment variables out of source control; use `.env`.
+- Tests mock Mongoose methods where appropriate. For integration tests you can use an in-memory MongoDB (e.g., `mongodb-memory-server`).
+
+## Debugging DB connections
+
+If you see errors like `Invalid namespace specified` or `Invalid scheme`, check:
+
+- `MONGODB_URI` starts with `mongodb://` or `mongodb+srv://` and has no accidental leading characters
+- Avoid adding a trailing slash after the host (the app strips trailing slashes safely, but malformed URIs can still cause issues)
+
+The app logs a masked URI during startup to help debug connection strings (credentials are hidden).
+
+## Project Structure (high level)
+
+- `src/` — application source code
+  - `configs/` — DB connection and config
+  - `controllers/` — request handlers
+  - `models/` — Mongoose schemas & models
+  - `routes/` — Express routes
+  - `middleware/` — Express middleware
+  - `utils/` — helpers, error types
+- `test/` — Jest unit tests
 
 ## Contributing
 
-Open issues or PRs with focused changes. Run tests and linters before submitting.
+- Open issues or PRs with focused changes
+- Run tests and linters before submitting changes
+
+---
+
+If you'd like, I can add a short **Development** section with common debugging commands (e.g., how to run a single test, watch mode, or use `mongodb-memory-server`). Would you like that added? -- ✨
