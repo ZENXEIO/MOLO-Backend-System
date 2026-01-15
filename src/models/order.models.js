@@ -16,10 +16,10 @@ const orderSchema = new mongoose.Schema(
       index: true,
     },
 
-    quantity:{
-      type:Number,
+    quantity: {
+      type: Number,
       required: true,
-      min:1,
+      min: 1,
     },
 
     amount: {
