@@ -16,6 +16,12 @@ const orderSchema = new mongoose.Schema(
       index: true,
     },
 
+    quantity:{
+      type:Number,
+      required: true,
+      min:1,
+    },
+
     amount: {
       type: Number,
       required: true,
@@ -44,4 +50,4 @@ const orderSchema = new mongoose.Schema(
   },
 );
 
-export default mongoose.model('Order', orderSchema);
+export const Order = mongoose.model('Order', orderSchema);

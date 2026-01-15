@@ -42,4 +42,4 @@ const ticketCategorySchema = new mongoose.Schema(
   },
 );
 
-export default mongoose.model('TicketCategory', ticketCategorySchema);
+export const TicketCategory = mongoose.model('TicketCategory', ticketCategorySchema);
