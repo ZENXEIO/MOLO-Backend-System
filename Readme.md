@@ -57,9 +57,53 @@ Unit tests use **Jest** (configured for ESM). Run the test suite with:
 npm test
 ```
 
-Notes:
+Or use watch mode for development:
 
-- Tests mock Mongoose methods where appropriate. For integration tests you can use an in-memory MongoDB (e.g., `mongodb-memory-server`).
+```bash
+npm run test:watch
+```
+
+### Test Coverage
+
+The test suite includes comprehensive coverage for:
+
+- **Controllers**:
+  - `user.controller.test.js` — User registration, login, validation
+  - `order.controller.test.js` — Order creation, validation, seat availability
+  - `admin.controller.test.js` — Event creation/management, ticket category creation
+  - `start.controller.test.js` — Server startup endpoint
+
+- **Middleware**:
+  - `auth.middleware.test.js` — Authentication token validation
+  - `authorize.middleware.test.js` — Role-based access control (RBAC)
+
+- **Models**:
+  - `user.model.test.js` — User schema validation
+  - `order.model.test.js` — Order schema validation
+  - `ticket.model.test.js` — Ticket schema validation
+  - `event.model.test.js` — Event schema validation
+  - `ticketcat.model.test.js` — TicketCategory schema validation
+
+- **Utilities**:
+  - `apiError.test.js` — Custom error handling
+  - `apiResponse.test.js` — Standard API response format
+  - `asyncHandler.test.js` — Async middleware wrapper
+
+**Test Examples:**
+
+Controller tests validate:
+
+- Input validation and missing parameter handling
+- Database operation success scenarios
+- Error handling via the `next()` callback
+- Proper HTTP status codes and response structure
+
+**Notes:**
+
+- Tests mock Mongoose methods where appropriate
+- For integration tests, you can use an in-memory MongoDB (e.g., `mongodb-memory-server`)
+- All tests use dynamic imports to support ES modules
+- All async route handlers are wrapped with `asyncHandler` which properly handles promise rejection
 
 ## Debugging DB connections
 

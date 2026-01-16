@@ -5,7 +5,8 @@ import { TicketCategory } from '../models/ticketcat.models.js';
 import { Order } from '../models/order.models.js';
 
 const createOrder = asyncHandler(async (req, res) => {
-  const { categoryId, quantity } = req.body;
+  const { categoryId } = req.params;
+  const { quantity } = req.body;
 
   if (!categoryId || !quantity || quantity <= 0) {
     throw new ApiError(400, 'Invalid request data');
@@ -38,4 +39,9 @@ const createOrder = asyncHandler(async (req, res) => {
   return res.status(201).json(new ApiResponse(201, order, 'Order has been created'));
 });
 
-export { createOrder };
+const getmyorder = asyncHandler(async (req, res) => {
+  const order = await Order.find({ user: req.user._id }).populate('event').sort({ createdAt: -1 });
+
+  return res.status(201).json(new ApiResponse(201, order, 'orders fetched successfully'));
+});
+export { createOrder, getmyorder };

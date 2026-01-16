@@ -39,12 +39,6 @@ const eventSchema = new mongoose.Schema(
       min: 1,
     },
 
-    availableSeats: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-
     organizer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
