@@ -75,6 +75,7 @@ describe('createOrder', () => {
     expect(Order.create).toHaveBeenCalledWith({
       user: 'user123',
       event: 'event123',
+      category: 'cat123',
       amount: 200,
       quantity: 2,
       status: 'PENDING',

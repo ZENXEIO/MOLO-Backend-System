@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 
 const orderSchema = new mongoose.Schema(
   {
@@ -43,6 +43,12 @@ const orderSchema = new mongoose.Schema(
     paymentRef: {
       type: String,
       index: true,
+    },
+
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'TicketCategory',
+      required: true,
     },
   },
   {

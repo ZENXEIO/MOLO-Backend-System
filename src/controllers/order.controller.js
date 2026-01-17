@@ -1,3 +1,5 @@
+// This is important controller
+
 import { ApiError } from '../utils/ApiError.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
@@ -31,6 +33,7 @@ const createOrder = asyncHandler(async (req, res) => {
   const order = await Order.create({
     user: req.user._id,
     event: category.event,
+    category: category._id,
     amount: category.price * quantity,
     quantity,
     status: 'PENDING',
