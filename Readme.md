@@ -130,6 +130,3 @@ The app logs a masked URI during startup to help debug connection strings (crede
 - Open issues or PRs with focused changes
 - Run tests and linters before submitting changes
 
----
-
-If you'd like, I can add a short **Development** section with common debugging commands (e.g., how to run a single test, watch mode, or use `mongodb-memory-server`). Would you like that added? -- ✨
