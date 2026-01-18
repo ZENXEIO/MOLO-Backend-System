@@ -129,4 +129,3 @@ The app logs a masked URI during startup to help debug connection strings (crede
 
 - Open issues or PRs with focused changes
 - Run tests and linters before submitting changes
-
