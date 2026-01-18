@@ -1,1 +1,1 @@
-export const DB_NAME = 'DATABASE_MOLO';
+export const DB_NAME = 'ineraDB';

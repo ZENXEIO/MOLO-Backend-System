@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: MOLO-Backend
+    env: node
+    plan: free
+    region: singapore
+    buildCommand: npm ci
+    startCommand: node src/index.js
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production

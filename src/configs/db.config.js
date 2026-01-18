@@ -14,7 +14,7 @@ const connectToDB = async () => {
 
     const hasDb = /mongodb(\+srv)?:\/\/[^\/]+\/.+/.test(cleaned);
 
-    const dbName = process.env.MONGODB_DB || 'DATABASE_MOLO';
+    const dbName = process.env.MONGODB_DB || 'ineraDB';
     const uri = hasDb ? cleaned : `${cleaned}/${dbName}`;
 
     // Mask credentials for console logging
