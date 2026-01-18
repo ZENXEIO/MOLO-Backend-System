@@ -27,4 +27,4 @@ app.use('/api/v1/admin', adminRoute);
 app.use('/api/v1/order', orderRoute);
 app.use('/api/v1/payments', paymentRoute);
 
-export { app };
+export default app;
